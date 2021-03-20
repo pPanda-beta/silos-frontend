@@ -14,6 +14,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import React from "react";
 import {useStyles} from "../../styles/base";
 import {useTheme} from "@material-ui/core/styles";
+import Link from "../../Link";
 
 
 export default ({open, handleDrawerClose}) => {
@@ -37,21 +38,21 @@ export default ({open, handleDrawerClose}) => {
             </div>
             <Divider/>
             <List>
-                <ListItem button>
+                <ListItem button component={Link} href="/listings/new?type=buy">
                     <ListItemText primary="Buy"/>
                     <ListItemIcon><MonetizationOnIcon/> <ArrowRightAltIcon/> <WbSunnyIcon/></ListItemIcon>
                 </ListItem>
-                <ListItem button>
+                <ListItem button component={Link} href="/listings/new?type=sell">
                     <ListItemText primary="Sell"/>
                     <ListItemIcon><WbSunnyIcon/> <ArrowRightAltIcon/> <MonetizationOnIcon/></ListItemIcon>
                 </ListItem>
 
-                <ListItem button>
+                <ListItem button component={Link} href="/listings">
                     <ListItemText primary="My Listings"/>
                     <ListItemIcon><MonetizationOnIcon/></ListItemIcon>
                 </ListItem>
 
-                <ListItem button>
+                <ListItem button component={Link} href="/bids">
                     <ListItemText primary="My Biddings"/>
                     <ListItemIcon><WbSunnyIcon/></ListItemIcon>
                 </ListItem>
