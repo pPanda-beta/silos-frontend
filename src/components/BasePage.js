@@ -9,12 +9,10 @@ import MenuIcon from '@material-ui/icons/Menu';
 import {useStyles} from "../styles/base";
 import SideBar from "../components/navigation/SideBar";
 
-const empty = () => (<></>);
-
 export const BasePage = (
     {
-        header = empty,
-        content = empty,
+        header = 'TrueBid',
+        content = () => (<></>),
     }
         = {}) => {
     const classes = useStyles();
