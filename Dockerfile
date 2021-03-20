@@ -15,7 +15,7 @@ RUN npm install
 ADD . .
 RUN npm run build
 
-FROM nginx
+FROM nginx:1.19.8-alpine
 
 COPY --from=builder /app/out/                 /usr/share/nginx/html/
 COPY --from=builder /app/nginx/               /etc/nginx/conf.d/
