@@ -1,0 +1,82 @@
+#Templates
+
+.base-docker-build-template: &base-docker-build-oneline |-
+
+  export TARGET_IMAGE_NAME=${TARGET_IMAGE_NAME:-$CI_REGISTRY_IMAGE}
+  export CACHE_FROM_IMAGES=${CACHE_FROM_IMAGES:-$TARGET_IMAGE_NAME\:latest}
+
+  docker pull $TARGET_IMAGE_NAME:latest || true
+  docker build \
+    --cache-from $CACHE_FROM_IMAGES \
+    --tag $TARGET_IMAGE_NAME:$CI_COMMIT_SHORT_SHA \
+    --tag $TARGET_IMAGE_NAME:latest \
+    -f ${DOCKERFILE:-Dockerfile} \
+    $EXTRA_BUILD_ARGS \
+    .
+  docker push $TARGET_IMAGE_NAME:$CI_COMMIT_SHORT_SHA
+  docker push $TARGET_IMAGE_NAME:latest
+
+
+.docker-build-2-stage-template: &docker-build-2-stage
+  #TODO: We have to use all stages as different images since multi-stage dockerfile never caches all stages : see https://github.com/moby/moby/issues/34715
+  - export TARGET_IMAGE_NAME=$CI_REGISTRY_IMAGE/builder
+  - export EXTRA_BUILD_ARGS='--target builder'
+  - *base-docker-build-oneline
+  - export TARGET_IMAGE_NAME=$CI_REGISTRY_IMAGE
+  - export CACHE_FROM_IMAGES="$CI_REGISTRY_IMAGE/builder:latest,$CI_REGISTRY_IMAGE:latest"
+  - export EXTRA_BUILD_ARGS=''
+  - *base-docker-build-oneline
+
+.docker-build-template: &docker-build
+  - *base-docker-build-oneline
+
+
+.heroku-deploy-template: &heroku-deploy
+  - docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
+  - docker login -u $HEROKU_EMAIL_ID -p $HEROKU_API_KEY registry.heroku.com
+  - docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA registry.heroku.com/$TARGET_HEROKU_APP/web:latest
+  - docker push registry.heroku.com/$TARGET_HEROKU_APP/web:latest
+  - docker run --rm -e HEROKU_API_KEY=$HEROKU_API_KEY wingrunr21/alpine-heroku-cli container:release web --app $TARGET_HEROKU_APP
+
+
+#Pipeline
+stages:
+  - build
+  - deploy
+
+image: docker:stable
+
+services:
+  - docker:dind
+
+
+variables:
+  DOCKER_HOST: tcp://docker:2375
+  DOCKER_DRIVER: overlay2
+
+before_script:
+  - set -v
+  - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+
+
+build:
+  stage: build
+  variables:
+    DOCKERFILE: Dockerfile
+  script: *docker-build-2-stage
+  only:
+    - master
+
+
+deploy-prod:
+  stage: deploy
+  variables:
+    TARGET_HEROKU_APP: truebid
+  script: *heroku-deploy
+  environment:
+    name: prod
+    url: https://truebid.herokuapp.com/
+  only:
+    - master
+  when: manual
+
