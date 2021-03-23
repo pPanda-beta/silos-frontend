@@ -1,9 +1,13 @@
 import React from 'react';
 import {BasePage} from "../../src/components/BasePage";
+import {Listings} from "../../src/components/listing/ListingView";
 
-export default () => (
+
+const ListingPage = () => (
     <BasePage
         header={({classes, drawerOpened}) => 'Listings'}
-        content={({classes, drawerOpened}) => (<h1>All listings by me</h1>)}
+        content={({classes, drawerOpened}) => (<Listings/>)}
     />
-)
+);
+
+export default ListingPage;
