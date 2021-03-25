@@ -1,3 +1,4 @@
+import React from "react";
 import {makeStyles} from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -13,6 +14,12 @@ import ShareIcon from '@material-ui/icons/Share';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import {TabbedItems} from "../containers/tabbed";
 import {useListings} from "../../data/use-listings";
+import ListItem from "@material-ui/core/ListItem";
+import List from "@material-ui/core/List";
+import ListItemText from "@material-ui/core/ListItemText";
+import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
+import Divider from "@material-ui/core/Divider";
+import Chip from "@material-ui/core/Chip";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -49,6 +56,15 @@ const useStyles = makeStyles((theme) => ({
     avatar: {
         backgroundColor: red[500],
     },
+
+
+    bidItem: {
+        backgroundColor: "lightgrey",
+    },
+    bidPrice: {
+        width: '7.5rem',
+        float: 'right'
+    }
 }));
 
 
@@ -71,12 +87,12 @@ export const ListingHeader = ({listing, classes}) => (
 
 export const ListingDetails = ({listing, classes}) => (
     <CardContent>
-            <span className={classes.minPrice}>
-                Min Price : {listing.min_price}
-            </span>
+        <span className={classes.minPrice}>
+            Min Price : {listing.min_price}
+        </span>
         <span className={classes.maxPrice}>
-                    Max Price : {listing.max_price}
-                </span>
+            Max Price : {listing.max_price}
+        </span>
         <Typography variant="body2" color="textSecondary" component="p">
 
         </Typography>
@@ -104,13 +120,41 @@ export const ListingImage = ({listing, classes}) => (
     />
 );
 
-export const ListingCard = ({header, image, details, footer, classes}) => (
+export const ListingCard = ({header, image, details, bids, footer, classes}) => (
     <Card className={classes.root}>
         {header}
         {image}
         {details}
+        {bids}
         {footer}
     </Card>
+);
+
+export const Bid = ({classes, bid, bidActionComp = () => ''}) => (
+    <>
+        <ListItem className={classes.bidItem} color="secondary">
+            <ListItemText id={bid.bid_id}
+                          primary={`By ${bid.user_id}`}
+            />
+            <ListItemSecondaryAction>
+                <Chip
+                    className={classes.bidPrice}
+                    label={` ${bid.bid_amount}`}
+                    color="secondary"
+                />
+                {bidActionComp({classes, bid})}
+            </ListItemSecondaryAction>
+        </ListItem>
+        <Divider/>
+    </>
+);
+
+export const Bids = ({classes, bids, ...props}) => (
+    <List dense>
+        {bids.map(bid => (
+            <Bid classes={classes} bid={bid} {...props} />)
+        )}
+    </List>
 );
 
 export const Listing = ({listing}) => {
@@ -127,6 +171,9 @@ export const Listing = ({listing}) => {
             }
             details={
                 <ListingDetails classes={classes} listing={listing}/>
+            }
+            bids={
+                <Bids classes={classes} bids={listing.bids ?? []}/>
             }
             footer={
                 <ListingFooter classes={classes} listing={listing}/>
