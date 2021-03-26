@@ -10,6 +10,7 @@ import {useStyles} from "../styles/base";
 import SideBar from "../components/navigation/SideBar";
 import {SWRConfig} from "swr";
 import {swrConfigs} from "../intg/client";
+import useUser from "../data/use-user";
 
 export const BasePage = (
     {
@@ -18,13 +19,16 @@ export const BasePage = (
     }
         = {}) => {
     const classes = useStyles();
+    const {loggedInUser, logout} = useUser();
+
     const [open, setOpen] = React.useState(false);
 
     const handleDrawerOpen = () => setOpen(true);
     const handleDrawerClose = () => setOpen(false);
 
     const childProps = {
-        classes, drawerOpened: open
+        classes, drawerOpened: open,
+        loggedInUser
     };
 
     return (
@@ -39,7 +43,7 @@ export const BasePage = (
                         [classes.appBarShift]: open,
                     })}
                 >
-                    <Toolbar>
+                    <Toolbar className={classes.header}>
                         <IconButton
                             color="inherit"
                             aria-label="open drawer"
@@ -49,13 +53,17 @@ export const BasePage = (
                         >
                             <MenuIcon/>
                         </IconButton>
-                        <Typography variant="h6" noWrap>
+                        <Typography variant="h6" noWrap style={{width: '100%'}}>
 
                             {header(childProps)}
+
+                            <span className={classes.userWelcomeMsg}>
+                                Hi {loggedInUser?.name}
+                            </span>
                         </Typography>
                     </Toolbar>
                 </AppBar>
-                <SideBar open={open} handleDrawerClose={handleDrawerClose}/>
+                <SideBar open={open} handleDrawerClose={handleDrawerClose} onLogout={logout}/>
                 <main
                     className={clsx(classes.content, {
                         [classes.contentShift]: open,

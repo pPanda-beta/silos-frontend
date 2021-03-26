@@ -17,7 +17,7 @@ import {useTheme} from "@material-ui/core/styles";
 import Link from "../../Link";
 
 
-export default ({open, handleDrawerClose}) => {
+export default ({open, handleDrawerClose, onLogout}) => {
     const classes = useStyles();
     const theme = useTheme();
 
@@ -61,7 +61,7 @@ export default ({open, handleDrawerClose}) => {
             <Divider/>
             <List>
 
-                <ListItem button>
+                <ListItem button onClick={onLogout}>
                     <ListItemIcon><InboxIcon/></ListItemIcon>
                     <ListItemText primary="Logout"/>
                 </ListItem>

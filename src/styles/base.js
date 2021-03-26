@@ -57,5 +57,11 @@ export const useStyles = makeStyles((theme) => ({
         }),
         marginLeft: 0,
     },
+    header: {
+        width: "100%"
+    },
+    userWelcomeMsg: {
+        float: "right"
+    },
 }));
 
