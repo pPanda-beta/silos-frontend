@@ -16,8 +16,11 @@ const useVerticalTabStyles = makeStyles((theme) => ({
         border: `0.2rem solid ${theme.palette.primary.light}`,
     },
     tabs: {
-        width: '35%',
+        "min-width": '7rem',
         borderRight: `0.5rem solid ${theme.palette.divider}`,
+    },
+    tabPanel: {
+        padding: '0.5rem',
     },
 }));
 
@@ -33,15 +36,16 @@ const TabOptions = ({labelFunc, items, ...props}) => (
 )
 
 
-const TabPanels = ({bodyFunc, items}) => (
+const TabPanels = ({bodyFunc, items, classes}) => (
     <Fragment>
         {
             items
                 .map((t, index) =>
-                    <TabPanel value={index}>
+                    <TabPanel value={index} className={classes?.tabPanel ?? ""} id={`tbp${index}`}>
                         {bodyFunc(t)}
                     </TabPanel>)
         }
+
     </Fragment>
 );
 
@@ -61,7 +65,7 @@ export const VerticalTabbedItems = ({items, labelFunc, bodyFunc}) => {
                     items={items}
                     labelFunc={labelFunc}
                 />
-                <TabPanels items={items} bodyFunc={bodyFunc}/>
+                <TabPanels items={items} bodyFunc={bodyFunc} classes={classes}/>
             </div>
         </TabContext>
     )
