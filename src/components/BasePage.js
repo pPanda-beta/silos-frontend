@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {createContext} from 'react';
 import clsx from 'clsx';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
@@ -11,6 +11,8 @@ import SideBar from "../components/navigation/SideBar";
 import {SWRConfig} from "swr";
 import {swrConfigs} from "../intg/client";
 import useUser from "../data/use-user";
+
+export const GlobalContext = createContext({});
 
 export const BasePage = (
     {
@@ -37,43 +39,45 @@ export const BasePage = (
             <SWRConfig
                 value={swrConfigs}
             >
-                <AppBar
-                    position="fixed"
-                    className={clsx(classes.appBar, {
-                        [classes.appBarShift]: open,
-                    })}
-                >
-                    <Toolbar className={classes.header}>
-                        <IconButton
-                            color="inherit"
-                            aria-label="open drawer"
-                            onClick={handleDrawerOpen}
-                            edge="start"
-                            className={clsx(classes.menuButton, open && classes.hide)}
-                        >
-                            <MenuIcon/>
-                        </IconButton>
-                        <Typography variant="h6" noWrap style={{width: '100%'}}>
+                <GlobalContext.Provider value={childProps}>
+                    <AppBar
+                        position="fixed"
+                        className={clsx(classes.appBar, {
+                            [classes.appBarShift]: open,
+                        })}
+                    >
+                        <Toolbar className={classes.header}>
+                            <IconButton
+                                color="inherit"
+                                aria-label="open drawer"
+                                onClick={handleDrawerOpen}
+                                edge="start"
+                                className={clsx(classes.menuButton, open && classes.hide)}
+                            >
+                                <MenuIcon/>
+                            </IconButton>
+                            <Typography variant="h6" noWrap style={{width: '100%'}}>
 
-                            {header(childProps)}
+                                {header(childProps)}
 
-                            <span className={classes.userWelcomeMsg}>
-                                Hi {loggedInUser?.name}
-                            </span>
+                                <span className={classes.userWelcomeMsg}>
+                                    Hi {loggedInUser?.name}
+                                </span>
+                            </Typography>
+                        </Toolbar>
+                    </AppBar>
+                    <SideBar open={open} handleDrawerClose={handleDrawerClose} onLogout={logout}/>
+                    <main
+                        className={clsx(classes.content, {
+                            [classes.contentShift]: open,
+                        })}
+                    >
+                        <div className={classes.drawerHeader}/>
+                        <Typography paragraph>
+                            {content(childProps)}
                         </Typography>
-                    </Toolbar>
-                </AppBar>
-                <SideBar open={open} handleDrawerClose={handleDrawerClose} onLogout={logout}/>
-                <main
-                    className={clsx(classes.content, {
-                        [classes.contentShift]: open,
-                    })}
-                >
-                    <div className={classes.drawerHeader}/>
-                    <Typography paragraph>
-                        {content(childProps)}
-                    </Typography>
-                </main>
+                    </main>
+                </GlobalContext.Provider>
             </SWRConfig>
         </div>
     );
