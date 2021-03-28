@@ -20,6 +20,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import Divider from "@material-ui/core/Divider";
 import Chip from "@material-ui/core/Chip";
+import {skuImageUrl} from "../../data/common";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -116,7 +117,7 @@ export const ListingFooter = ({listing, classes}) => (
 export const ListingImage = ({listing, classes}) => (
     <CardMedia
         className={classes.media}
-        image={`/static/images/${listing.sku_id}.jpeg`}
+        image={skuImageUrl(listing.sku_id)}
     />
 );
 

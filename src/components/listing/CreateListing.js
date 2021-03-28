@@ -8,11 +8,11 @@ import Alert from "@material-ui/lab/Alert";
 import React, {useContext, useState} from "react";
 import {GlobalContext} from "../BasePage";
 import Typography from "@material-ui/core/Typography";
-import Image from "next/image";
 import TextField from "@material-ui/core/TextField";
 import {KeyboardDateTimePicker} from "@material-ui/pickers";
 import {useSkus} from "../../data/use-sku";
 import {VerticalTabbedItems} from "../containers/tabbed";
+import {skuImageUrl} from "../../data/common";
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -86,9 +86,11 @@ const ListingCreateForm = ({sku, type = null}) => {
                 <Typography variant="h5">
                     {sku.name}
                 </Typography>
-                <Image src={`/static/images/${sku.sku_id}.jpeg`}
-                       width="100%"
-                       height="100%"
+                <img src={skuImageUrl(sku.sku_id)}
+                     style={{
+                         width: "12rem",
+                         height: "12rem"
+                     }}
                 />
 
             </div>
