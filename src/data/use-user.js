@@ -4,7 +4,7 @@ import {useCallback, useEffect, useState} from "react";
 import {jsonFetcher} from "../intg/client";
 
 
-const createUser = ({userId, userName}) => jsonFetcher('/api/user', {
+export const createUser = ({userId, userName}) => jsonFetcher('/api/user', {
     method: "POST",
     headers: {
         'Content-Type': 'application/json'

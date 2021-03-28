@@ -9,6 +9,10 @@ import TabPanel from "@material-ui/lab/TabPanel";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import useUser from "../../data/use-user";
+import {QuadStateView} from "../QuadStateView";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import Snackbar from "@material-ui/core/Snackbar";
+import Alert from "@material-ui/lab/Alert";
 
 
 export const LoginForm = ({onLogin}) => {
@@ -32,6 +36,49 @@ export const LoginForm = ({onLogin}) => {
     );
 }
 
+
+const RegisterButton = ({user, onRegister}) => (
+    <QuadStateView
+        sideEffectFn={onRegister}
+        initComponentFn={
+            (_, trigger) =>
+                <Button variant="contained"
+                        color="primary"
+                        onClick={() => trigger(user)}
+                >
+                    Register
+                </Button>
+        }
+        inProgressComponentFn={
+            () =>
+                <Button variant="contained"
+                        color="primary"
+                        disabled
+                >
+                    <pre>Creating new user ...  </pre>
+                    <CircularProgress/>
+                </Button>
+        }
+        successComponentFn={
+            (_, __, reset) =>
+                <Snackbar open autoHideDuration={2000} onClose={reset}>
+                    <Alert onClose={reset} severity="success">
+                        Registration Successful, Please login!
+                    </Alert>
+                </Snackbar>
+        }
+        errorComponentFn={
+            ({error}, _, reset) =>
+                <Snackbar open autoHideDuration={5000} onClose={reset}>
+                    <Alert onClose={reset} severity="error">
+                        Failed to create user!
+                        Error : {error?.toString()}
+                    </Alert>
+                </Snackbar>
+        }
+    />
+)
+
 export const RegisterForm = ({onRegister}) => {
     const [userId, setUserId] = useState("");
     const [userName, setUserName] = useState("");
@@ -53,12 +100,7 @@ export const RegisterForm = ({onRegister}) => {
             />
 
             <br/>
-            <Button variant="contained"
-                    color="primary"
-                    onClick={() => onRegister(userObj)}
-            >
-                Register
-            </Button>
+            <RegisterButton onRegister={onRegister} user={userObj}/>
         </>
     );
 }
