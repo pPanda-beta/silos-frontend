@@ -210,7 +210,7 @@ export const ListingSelector = ({listings, onSelect, extraColumns = []}) => {
     ];
 
     return (
-        <div>
+        <div style={{"display": "block"}}>
             <MUIDataTable title={"Available Listings"}
                           options={options}
                           data={openListings}

@@ -17,7 +17,6 @@ import {useTheme} from "@material-ui/core/styles";
 import Link from "../../Link";
 import {PlusOneSharp} from "@material-ui/icons";
 
-
 export default ({open, handleDrawerClose, onLogout}) => {
     const classes = useStyles();
     const theme = useTheme();
@@ -39,13 +38,16 @@ export default ({open, handleDrawerClose, onLogout}) => {
             </div>
             <Divider/>
             <List>
-                <ListItem button component={Link} href="/listings/new?type=buy">
-                    <ListItemText primary="Buy"/>
-                    <ListItemIcon><MonetizationOnIcon/> <ArrowRightAltIcon/> <WbSunnyIcon/></ListItemIcon>
-                </ListItem>
-                <ListItem button component={Link} href="/listings/new?type=sell">
-                    <ListItemText primary="Sell"/>
-                    <ListItemIcon><WbSunnyIcon/> <ArrowRightAltIcon/> <MonetizationOnIcon/></ListItemIcon>
+                {/*<ListItem button component={Link} href="/listings/new?type=buy">*/}
+                {/*    <ListItemText primary="Buy"/>*/}
+                {/*    <ListItemIcon><MonetizationOnIcon/> <ArrowRightAltIcon/> <WbSunnyIcon/></ListItemIcon>*/}
+                {/*</ListItem>*/}
+
+                <ListItem button component={Link}
+                          href="/listings/new?type=sell">
+                    <ListItemText primary="Create Listing"/>
+                    <ListItemIcon><WbSunnyIcon/> <ArrowRightAltIcon/>
+                        <MonetizationOnIcon/></ListItemIcon>
                 </ListItem>
 
                 <ListItem button component={Link} href="/listings">
@@ -54,12 +56,12 @@ export default ({open, handleDrawerClose, onLogout}) => {
                 </ListItem>
 
                 <ListItem button component={Link} href="/bids/new">
-                    <ListItemText primary="Create bidding"/>
+                    <ListItemText primary="Buy"/>
                     <ListItemIcon><MonetizationOnIcon/><PlusOneSharp/></ListItemIcon>
                 </ListItem>
 
                 <ListItem button component={Link} href="/bids">
-                    <ListItemText primary="My Biddings"/>
+                    <ListItemText primary="My Bids"/>
                     <ListItemIcon><WbSunnyIcon/></ListItemIcon>
                 </ListItem>
 
