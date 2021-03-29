@@ -5,7 +5,14 @@ const drawerWidth = 240;
 export const useStyles = makeStyles((theme) => ({
     root: {
         display: 'block',
+        'font-family': 'Roboto, sans-serif'
     },
+    '*> input': {
+        'text-align': 'center'
+    },
+    fontFamily: [
+        'Roboto',
+    ].join(','),
     appBar: {
         transition: theme.transitions.create(['margin', 'width'], {
             easing: theme.transitions.easing.sharp,

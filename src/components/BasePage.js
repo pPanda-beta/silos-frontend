@@ -11,6 +11,7 @@ import SideBar from "../components/navigation/SideBar";
 import {SWRConfig} from "swr";
 import {swrConfigs} from "../intg/client";
 import useUser from "../data/use-user";
+import Avatar from "@material-ui/core/Avatar";
 
 export const GlobalContext = createContext({});
 
@@ -52,17 +53,26 @@ export const BasePage = (
                                 aria-label="open drawer"
                                 onClick={handleDrawerOpen}
                                 edge="start"
-                                className={clsx(classes.menuButton, open && classes.hide)}
+                                className={clsx(classes.menuButton,
+                                    open && classes.hide)}
                             >
                                 <MenuIcon/>
                             </IconButton>
-                            <Typography variant="h6" noWrap style={{width: '100%'}}>
+                            <Typography variant="h6" noWrap style={{
+                                width: '100%',
+                                height: '40px',
+                                'line-height': '2'
+                            }}>
 
                                 {header(childProps)}
-
-                                <span className={classes.userWelcomeMsg}>
-                                    Hi {loggedInUser?.name}
+                                <span>
+                                <Avatar sizes='30'
+                                        className={classes.userWelcomeMsg}
+                                        alt={loggedInUser?.name}
+                                        src="/static/images/avatar/1.jpg"/>
                                 </span>
+
+
                             </Typography>
                         </Toolbar>
                     </AppBar>
@@ -73,9 +83,7 @@ export const BasePage = (
                         })}
                     >
                         <div className={classes.drawerHeader}/>
-                        <Typography paragraph>
-                            {content(childProps)}
-                        </Typography>
+                        {content(childProps)}
                     </main>
                 </GlobalContext.Provider>
             </SWRConfig>
