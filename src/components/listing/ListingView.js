@@ -28,14 +28,6 @@ const useStyles = makeStyles((theme) => ({
         maxWidth: 345,
         margin: '2rem 1rem'
     },
-    minPrice: {
-        width: '7.5rem',
-        float: 'left'
-    },
-    maxPrice: {
-        width: '7.5rem',
-        float: 'right'
-    },
     actions: {
         width: '7.5rem',
         float: 'left'
@@ -88,15 +80,15 @@ export const ListingHeader = ({listing, classes}) => (
 
 export const ListingDetails = ({listing, classes}) => (
     <CardContent>
-        <span className={classes.minPrice}>
-            Min Price : {listing.min_price}
-        </span>
-        <span className={classes.maxPrice}>
-            Max Price : {listing.max_price}
-        </span>
-        <Typography variant="body2" color="textSecondary" component="p">
-
-        </Typography>
+        <Grid
+            container
+            direction="row"
+            justify="space-between"
+            alignItems="stretch"
+        >
+            <span>Min Price : {listing.min_price}</span>
+            <span>Max Price : {listing.max_price}</span>
+        </Grid>
     </CardContent>
 
 );
