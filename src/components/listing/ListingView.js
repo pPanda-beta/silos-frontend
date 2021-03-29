@@ -65,7 +65,7 @@ export const ListingHeader = ({listing, classes}) => (
     <CardHeader
         avatar={
             <Avatar aria-label="recipe">
-                R
+                {listing?.sku?.name?.[0]}
             </Avatar>
         }
         action={
@@ -73,7 +73,7 @@ export const ListingHeader = ({listing, classes}) => (
                 <MoreVertIcon/>
             </IconButton>
         }
-        title={listing.sku_id}
+        title={listing.sku?.name}
         subheader={new Date(listing.created_time).toDateString()}
     />
 );
@@ -191,8 +191,8 @@ export const ListingSelector = ({listings, onSelect, extraColumns = []}) => {
 
     const columns = [
         {
-            name: 'sku_id', label: "Name",
-            options: {filter: true}
+            name: 'sku', label: "Name",
+            options: {filter: true, customBodyRender: (sku) => sku?.name}
         },
         {name: 'max_price', label: "Max Bid"},
         {name: 'min_price', label: "Min Bid"},
@@ -228,7 +228,7 @@ export const Listings = () => {
     return (
         <TabbedItems
             items={listings}
-            labelFunc={(l) => `${l.sku_id}`}
+            labelFunc={(l) => `${l.sku?.name || l.sku_id}`}
             bodyFunc={(l) => <Listing listing={l}/>}
         />
     );
