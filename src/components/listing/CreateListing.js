@@ -120,7 +120,8 @@ const ListingCreateForm = ({sku, type = null}) => {
                 />
                 <Submit classes={classes} listingReq={{
                     skuId: sku.sku_id, userId: loggedInUser?.user_id,
-                    minPrice, maxPrice, exprDateTime
+                    minPrice, maxPrice, exprDateTime,
+                    sku,
                 }}/>
             </div>
         </div>
