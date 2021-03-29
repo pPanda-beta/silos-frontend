@@ -7,7 +7,6 @@ import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
 import {red} from '@material-ui/core/colors';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
@@ -20,7 +19,9 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import Divider from "@material-ui/core/Divider";
 import Chip from "@material-ui/core/Chip";
-import {skuImageUrl} from "../../data/common";
+import {asSkuImage, dateTimeFormatter, skuImageUrl, toDataset} from "../../data/common";
+import {DataGrid} from "@material-ui/data-grid";
+import Grid from "@material-ui/core/Grid";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -173,6 +174,30 @@ export const Listing = ({listing}) => {
             }
         />
     );
+}
+
+export const ListingSelector = ({listings, onSelect}) => {
+    const openListings = listings.filter(t => t.state === "open");
+    const {rows, columns} = toDataset(openListings, [
+        ['sku_id', {headerName: "SKU ID", flex: 5}],
+        ['', {headerName: "Image", flex: 3, renderCell: asSkuImage({width: '50rem'})}],
+        ['max_price', {headerName: "Max Price", flex: 7}],
+        ['min_price', {headerName: "Min Price", flex: 7}],
+        ['created_time', {headerName: "Created On", flex: 10, valueFormatter: dateTimeFormatter}],
+        ['expiration_time', {headerName: "Expires By", flex: 10, valueFormatter: dateTimeFormatter}],
+    ]);
+    return (
+        <div style={{height: '20rem', width: '100%', 'min-width': '40rem'}}>
+            <DataGrid rows={rows} columns={columns}
+                      density='compact'
+                      disableColumnResize={false}
+                      disableMultipleColumnsSorting={false}
+                      disableMultipleColumnsFiltering={false}
+                      onRowSelected={({data}) => onSelect(data)}
+            />
+        </div>
+    );
+
 }
 
 

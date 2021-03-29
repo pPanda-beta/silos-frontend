@@ -15,6 +15,7 @@ import React from "react";
 import {useStyles} from "../../styles/base";
 import {useTheme} from "@material-ui/core/styles";
 import Link from "../../Link";
+import {PlusOneSharp} from "@material-ui/icons";
 
 
 export default ({open, handleDrawerClose, onLogout}) => {
@@ -50,6 +51,11 @@ export default ({open, handleDrawerClose, onLogout}) => {
                 <ListItem button component={Link} href="/listings">
                     <ListItemText primary="My Listings"/>
                     <ListItemIcon><MonetizationOnIcon/></ListItemIcon>
+                </ListItem>
+
+                <ListItem button component={Link} href="/bids/new">
+                    <ListItemText primary="Create bidding"/>
+                    <ListItemIcon><MonetizationOnIcon/><PlusOneSharp/></ListItemIcon>
                 </ListItem>
 
                 <ListItem button component={Link} href="/bids">

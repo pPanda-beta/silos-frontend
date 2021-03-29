@@ -1,9 +1,12 @@
-import React from 'react';
+import React from "react";
 import {BasePage} from "../../src/components/BasePage";
+import {NewBid} from "../../src/components/bid/BidCreate";
 
-export default () => (
+const NewBidPage = () => (
     <BasePage
         header={({classes, drawerOpened}) => 'Create New Bid'}
-        content={({classes, drawerOpened}) => (<h1>Enter params</h1>)}
+        content={({classes, drawerOpened}) => (<NewBid/>)}
     />
-)
+);
+
+export default NewBidPage
