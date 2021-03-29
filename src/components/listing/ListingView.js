@@ -19,10 +19,9 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import Divider from "@material-ui/core/Divider";
 import Chip from "@material-ui/core/Chip";
-import {asSkuImage, dateTimeFormatter, skuImageUrl} from "../../data/common";
+import {dateTimeFormatter, skuImageUrl} from "../../data/common";
 import Grid from "@material-ui/core/Grid";
 import MUIDataTable from "mui-datatables";
-
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -192,26 +191,26 @@ export const ListingSelector = ({listings, onSelect, extraColumns = []}) => {
 
     const columns = [
         {
-            name: 'sku_id', label: "SKU ID",
+            name: 'sku_id', label: "Name",
             options: {filter: true}
         },
+        {name: 'max_price', label: "Max Bid"},
+        {name: 'min_price', label: "Min Bid"},
         {
-            name: 'sku_id', label: "Image", options: {
-                filter: false,
-                customBodyRender: asSkuImage({width: '50rem'})
-            }
+            name: 'created_time',
+            label: "Created On",
+            options: {customBodyRender: dateTimeFormatter}
         },
-        {name: 'max_price', label: "Max Price"},
-        {name: 'min_price', label: "Min Price"},
         {
-            name: 'created_time', label: "Created On", options: {customBodyRender: dateTimeFormatter}
+            name: 'expiration_time',
+            label: "Expires By",
+            options: {customBodyRender: dateTimeFormatter}
         },
-        {name: 'expiration_time', label: "Expires By", options: {customBodyRender: dateTimeFormatter}},
         ...extraColumns,
     ];
 
     return (
-        <div style={{height: '20rem'}}>
+        <div>
             <MUIDataTable title={"Available Listings"}
                           options={options}
                           data={openListings}

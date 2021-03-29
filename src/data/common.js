@@ -7,7 +7,7 @@ export const createEnum = (...keys) => Object.freeze(
 export const skuImageUrl = skuId => `/static/images/${skuId}.jpeg`;
 
 
-export const dateTimeFormatter = (t) => new Date(parseInt(t)).toLocaleString();
+export const dateTimeFormatter = (t) => new Date(parseInt(t)).toDateString();
 
 export const asImage = (urlBuilder, props) => (t) => (<img src={urlBuilder(t)} {...props}/>);
 
