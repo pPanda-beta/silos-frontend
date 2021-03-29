@@ -111,9 +111,13 @@ export const NewBid = () => {
     const [selectedListing, setSelectedListing] = useState(listings[0] || {});
 
     return (
-        <>
-            <ListingSelector listings={listings} onSelect={setSelectedListing}/>
+        <Grid container
+              direction="row"
+              justify="space-around"
+              alignItems="stretch"
+        >
             {selectedListing?.listing_id && <CreateSingleBid listing={selectedListing}/>}
-        </>
+            <ListingSelector listings={listings} onSelect={setSelectedListing}/>
+        </Grid>
     );
 }

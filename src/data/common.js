@@ -7,11 +7,11 @@ export const createEnum = (...keys) => Object.freeze(
 export const skuImageUrl = skuId => `/static/images/${skuId}.jpeg`;
 
 
-export const dateTimeFormatter = (t) => new Date(parseInt(t.value)).toLocaleString();
+export const dateTimeFormatter = (t) => new Date(parseInt(t)).toLocaleString();
 
+export const asImage = (urlBuilder, props) => (t) => (<img src={urlBuilder(t)} {...props}/>);
 
-export const asImage = (urlBuilder, props) => (t) => (<img src={urlBuilder(t?.row)} {...props}/>);
-export const asSkuImage = (props) => asImage(t => skuImageUrl(t?.sku_id), props);
+export const asSkuImage = (props) => asImage(skuImageUrl, props);
 
 export const toDataset = (items, columnMappings = null) => ({
         columns: (columnMappings ?? Object.keys(items[0]).map(k => [k, k]))
