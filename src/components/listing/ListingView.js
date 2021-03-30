@@ -11,6 +11,7 @@ import {red} from '@material-ui/core/colors';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import StarRateTwoToneIcon from '@material-ui/icons/StarRateTwoTone';
 import {TabbedItems} from "../containers/tabbed";
 import {useListings} from "../../data/use-listings";
 import ListItem from "@material-ui/core/ListItem";
@@ -23,6 +24,8 @@ import {dateTimeFormatter, skuImageUrl} from "../../data/common";
 import Grid from "@material-ui/core/Grid";
 import MUIDataTable from "mui-datatables";
 import {bidChooserFor} from "../bid/BidAction";
+import {useBidsWithRatings} from "../../data/use-bid";
+import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -127,9 +130,17 @@ export const ListingCard = ({header, image, details, bids, footer, classes}) => 
 export const Bid = ({classes, bid, bidActionComp = () => ''}) => (
     <>
         <ListItem className={classes.bidItem} color="secondary">
-            <ListItemText id={bid.bid_id}
-                          primary={`By ${bid.user_id}`}
-            />
+            <ListItemText id={bid.bid_id}>
+                <Typography display="inline">
+                    {`By ${bid.user_id}    `}
+                </Typography>
+                {(bid.rating > 0) && <Chip
+                    color="primary"
+                    size="small"
+                    icon={<StarRateTwoToneIcon/>}
+                    label={bid.rating?.toFixed(2)}
+                />}
+            </ListItemText>
             <ListItemSecondaryAction>
                 <Grid container
                       direction="row"
@@ -159,6 +170,7 @@ export const Bids = ({classes, bids, ...props}) => (
 
 export const Listing = ({listing, bidActionComp}) => {
     const classes = useStyles();
+    const bidsWithRatings = useBidsWithRatings(listing.bids, listing.sku?.domain_id);
 
     return (
         <ListingCard
@@ -173,7 +185,7 @@ export const Listing = ({listing, bidActionComp}) => {
                 <ListingDetails classes={classes} listing={listing}/>
             }
             bids={
-                <Bids classes={classes} bids={listing.bids ?? []} bidActionComp={bidActionComp}/>
+                <Bids classes={classes} bids={bidsWithRatings ?? []} bidActionComp={bidActionComp}/>
             }
             footer={
                 <ListingFooter classes={classes} listing={listing}/>

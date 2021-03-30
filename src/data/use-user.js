@@ -29,6 +29,9 @@ export const addRating = ({userId, domainId, rating}) => jsonFetcher('/api/user/
 });
 
 
+export const getUsers = (ids) => Promise.all(
+    ids.map(id => jsonFetcher(`/api/user/${id}`)));
+
 export const useUser = ({
                             redirectToWhenLoggedOut = '/login',
                             afterLogin = null
