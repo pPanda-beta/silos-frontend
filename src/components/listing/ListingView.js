@@ -29,7 +29,6 @@ import {useMyListings} from "../../data/use-listings";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        maxWidth: 345,
         margin: '2rem 1rem'
     },
     actions: {
@@ -39,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
     media: {
         height: '.1rem',
         paddingTop: '56.25%', // 16:9
+        border: '1.5rem solid white',
     },
     expand: {
         transform: 'rotate(0deg)',
