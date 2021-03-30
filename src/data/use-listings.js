@@ -1,5 +1,7 @@
 import useSWR from "swr";
 import {jsonFetcher} from "../intg/client";
+import {useContext} from "react";
+import {GlobalContext} from "../components/BasePage";
 
 
 export const createListing = (t) => jsonFetcher('/api/listing', {
@@ -31,8 +33,8 @@ export const acceptBid = (listing, bid) => jsonFetcher(`/api/listing/${listing.l
 });
 
 
-export const useListings = () => {
-    const {data, error} = useSWR('/api/listing', {
+function useListingFor(apiPath) {
+    const {data, error} = useSWR(apiPath, {
         initialData: {}
     });
 
@@ -41,3 +43,19 @@ export const useListings = () => {
         error
     }
 }
+
+export const useListings = () => {
+    return useListingFor('/api/listing');
+}
+
+export const useMyListings = () => {
+    const {loggedInUser} = useContext(GlobalContext);
+    return useListingFor(`/api/listing?creator_id=${loggedInUser?.user_id}`);
+}
+
+
+export const useListingsIVeBid = () => {
+    const {loggedInUser} = useContext(GlobalContext);
+    return useListingFor(`/api/listing?bidder_id=${loggedInUser?.user_id}`);
+}
+

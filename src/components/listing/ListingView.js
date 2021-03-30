@@ -13,7 +13,6 @@ import ShareIcon from '@material-ui/icons/Share';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import StarRateTwoToneIcon from '@material-ui/icons/StarRateTwoTone';
 import {TabbedItems} from "../containers/tabbed";
-import {useListings} from "../../data/use-listings";
 import ListItem from "@material-ui/core/ListItem";
 import List from "@material-ui/core/List";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -26,6 +25,7 @@ import MUIDataTable from "mui-datatables";
 import {bidChooserFor} from "../bid/BidAction";
 import {useBidsWithRatings} from "../../data/use-bid";
 import Typography from "@material-ui/core/Typography";
+import {useMyListings} from "../../data/use-listings";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -244,7 +244,7 @@ export const ListingSelector = ({listings, onSelect, extraColumns = []}) => {
 
 
 export const Listings = ({enableBidChooser = false}) => {
-    const {listings} = useListings();
+    const {listings} = useMyListings();
 
     return (
         <TabbedItems

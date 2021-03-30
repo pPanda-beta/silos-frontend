@@ -1,7 +1,7 @@
 import React, {useContext} from "react";
 import {GlobalContext} from "../BasePage";
 import EmojiPeopleIcon from "@material-ui/icons/EmojiPeople";
-import {useListings} from "../../data/use-listings";
+import {useListingsIVeBid} from "../../data/use-listings";
 import {TabbedItems} from "../containers/tabbed";
 import {Listing} from "../listing/ListingView";
 import Grid from "@material-ui/core/Grid";
@@ -24,7 +24,7 @@ export const MyBidIdentifier = ({bid}) => {
 }
 
 export const MyBids = () => {
-    const {listings} = useListings();
+    const {listings} = useListingsIVeBid();
     const classes = useStyles();
 
     return (
