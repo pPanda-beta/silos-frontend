@@ -12,7 +12,7 @@ import Alert from "@material-ui/lab/Alert";
 import Grid from "@material-ui/core/Grid";
 import GavelIcon from '@material-ui/icons/Gavel';
 
-export const BidFireButton = ({listing, bidPrice, existingBid}) => {
+export const BidFireButton = ({listing, bidPrice, existingBid, loggedInUser}) => {
     const createOperation = () => createBid({
         bidPrice, listingId: listing.listing_id,
         userId: loggedInUser?.user_id
@@ -97,7 +97,8 @@ export const CreateOrUpdateBid = ({listing}) => {
                        }}
             />
 
-            <BidFireButton listing={listing} bidPrice={bidPrice} existingBid={existingBid}/>
+            <BidFireButton listing={listing} bidPrice={bidPrice}
+                           existingBid={existingBid} loggedInUser={loggedInUser}/>
         </Grid>
 
     );
