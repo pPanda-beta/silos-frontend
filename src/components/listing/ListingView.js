@@ -117,12 +117,13 @@ export const ListingImage = ({listing, classes}) => (
     />
 );
 
-export const ListingCard = ({header, image, details, bids, footer, classes}) => (
+export const ListingCard = ({header, image, details, bids, footer, classes, children}) => (
     <Card className={classes.root}>
         {header}
         {image}
         {details}
         {bids}
+        {children}
         {footer}
     </Card>
 );
@@ -168,7 +169,7 @@ export const Bids = ({classes, bids, ...props}) => (
     </List>
 );
 
-export const Listing = ({listing, bidActionComp}) => {
+export const Listing = ({listing, bidActionComp, children}) => {
     const classes = useStyles();
     const bidsWithRatings = useBidsWithRatings(listing.bids, listing.sku?.domain_id);
 
@@ -190,6 +191,7 @@ export const Listing = ({listing, bidActionComp}) => {
             footer={
                 <ListingFooter classes={classes} listing={listing}/>
             }
+            children={children}
         />
     );
 }

@@ -15,6 +15,21 @@ export const createBid = (t) => jsonFetcher('/api/bid', {
     })
 })
 
+export const updateBid = (listing, updatedBid) => jsonFetcher(`/api/listing/${listing.listing_id}`, {
+    method: "PUT",
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+        ...listing,
+        bids: listing.bids.map(
+            b => (b.bid_id === updatedBid.bid_id)
+                ? ({...b, ...updatedBid})
+                : b
+        )
+    })
+})
+
 
 export const useBidsWithRatings = (bids, domainId) => {
     const bidderIds = bids.map(b => b.user_id);

@@ -4,7 +4,7 @@ import {useListings} from "../../data/use-listings";
 import {ListingSelector} from "../listing/ListingView";
 import TextField from "@material-ui/core/TextField";
 import {QuadStateView} from "../QuadStateView";
-import {createBid} from "../../data/use-bid";
+import {createBid, updateBid} from "../../data/use-bid";
 import Button from "@material-ui/core/Button";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Snackbar from "@material-ui/core/Snackbar";
@@ -12,17 +12,22 @@ import Alert from "@material-ui/lab/Alert";
 import Grid from "@material-ui/core/Grid";
 import GavelIcon from '@material-ui/icons/Gavel';
 
-export const BidFireButton = ({listing, bidPrice}) => {
-    const {loggedInUser} = useContext(GlobalContext);
+export const BidFireButton = ({listing, bidPrice, existingBid}) => {
+    const createOperation = () => createBid({
+        bidPrice, listingId: listing.listing_id,
+        userId: loggedInUser?.user_id
+    });
+    const updateOperation = () => updateBid(listing, {
+        ...existingBid, bid_amount: bidPrice
+    });
+
+    const operation = existingBid ? updateOperation : createOperation;
 
     return (<QuadStateView
-        sideEffectFn={createBid}
+        sideEffectFn={operation}
         initComponentFn={
             (_, trigger) =>
-                <Button onClick={() => trigger({
-                    bidPrice, listingId: listing.listing_id,
-                    userId: loggedInUser?.user_id
-                })}
+                <Button onClick={trigger}
                 ><GavelIcon/>
                 </Button>
         }
@@ -39,7 +44,11 @@ export const BidFireButton = ({listing, bidPrice}) => {
             ({data}, __, reset) =>
                 <Snackbar open autoHideDuration={2000} onClose={reset}>
                     <Alert onClose={reset} severity="success">
-                        Bid created successfully! ID: {Object.keys(data)?.[0]}
+                        { //TODO: Do not rely on existingBid, which gets updated immediately
+                            typeof Object.values(data)?.[0] === "string" ?
+                                `Bid updated successfully! `
+                                : `Bid created successfully! ID: ${Object.keys(data)?.[0]}`
+                        }
                     </Alert>
                 </Snackbar>
         }
@@ -47,7 +56,7 @@ export const BidFireButton = ({listing, bidPrice}) => {
             ({error}, _, reset) =>
                 <Snackbar open autoHideDuration={5000} onClose={reset}>
                     <Alert onClose={reset} severity="error">
-                        Failed to create bid!
+                        Failed to create/update bid!
                         Error : {error?.toString()}
                     </Alert>
                 </Snackbar>
@@ -55,9 +64,13 @@ export const BidFireButton = ({listing, bidPrice}) => {
     />);
 }
 
-export const CreateSingleBid = ({listing}) => {
-    const [bidPrice, setBidPrice] = useState(listing.min_price);
-    useEffect(() => setBidPrice(listing.min_price), [listing]);
+export const CreateOrUpdateBid = ({listing}) => {
+    const {loggedInUser} = useContext(GlobalContext);
+    const existingBid = listing.bids.find(b => b.user_id === loggedInUser?.user_id);
+    const currentOrMinPrice = existingBid?.bid_amount ?? listing.min_price;
+
+    const [bidPrice, setBidPrice] = useState(currentOrMinPrice);
+    useEffect(() => setBidPrice(currentOrMinPrice), [listing]);
 
     const updatePrice = useCallback(
         (p) => setBidPrice(
@@ -84,7 +97,7 @@ export const CreateSingleBid = ({listing}) => {
                        }}
             />
 
-            <BidFireButton listing={listing} bidPrice={bidPrice}/>
+            <BidFireButton listing={listing} bidPrice={bidPrice} existingBid={existingBid}/>
         </Grid>
 
     );
@@ -100,9 +113,7 @@ export const NewBid = () => {
                          }} extraColumns={[
             {
                 name: 'self', label: "Bid", options: {
-                    customBodyRender: (listing) => {
-                        return <CreateSingleBid listing={listing}/>
-                    }
+                    customBodyRender: (listing) => <CreateOrUpdateBid listing={listing}/>
                 }
             },
         ]}/>
