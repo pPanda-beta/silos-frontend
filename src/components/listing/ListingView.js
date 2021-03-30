@@ -22,6 +22,7 @@ import Chip from "@material-ui/core/Chip";
 import {dateTimeFormatter, skuImageUrl} from "../../data/common";
 import Grid from "@material-ui/core/Grid";
 import MUIDataTable from "mui-datatables";
+import {bidChooserFor} from "../bid/BidAction";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -130,12 +131,18 @@ export const Bid = ({classes, bid, bidActionComp = () => ''}) => (
                           primary={`By ${bid.user_id}`}
             />
             <ListItemSecondaryAction>
-                <Chip
-                    className={classes.bidPrice}
-                    label={` ${bid.bid_amount}`}
-                    color="secondary"
-                />
-                {bidActionComp({classes, bid})}
+                <Grid container
+                      direction="row"
+                      justify="flex-start"
+                      alignItems="stretch"
+                      wrap="nowrap"
+                >
+                    <Chip
+                        label={` ${bid.bid_amount}`}
+                        color="secondary"
+                    />
+                    {bidActionComp?.({classes, bid})}
+                </Grid>
             </ListItemSecondaryAction>
         </ListItem>
         <Divider/>
@@ -150,7 +157,7 @@ export const Bids = ({classes, bids, ...props}) => (
     </List>
 );
 
-export const Listing = ({listing}) => {
+export const Listing = ({listing, bidActionComp}) => {
     const classes = useStyles();
 
     return (
@@ -166,7 +173,7 @@ export const Listing = ({listing}) => {
                 <ListingDetails classes={classes} listing={listing}/>
             }
             bids={
-                <Bids classes={classes} bids={listing.bids ?? []}/>
+                <Bids classes={classes} bids={listing.bids ?? []} bidActionComp={bidActionComp}/>
             }
             footer={
                 <ListingFooter classes={classes} listing={listing}/>
@@ -222,14 +229,19 @@ export const ListingSelector = ({listings, onSelect, extraColumns = []}) => {
 }
 
 
-export const Listings = () => {
+export const Listings = ({enableBidChooser = false}) => {
     const {listings} = useListings();
 
     return (
         <TabbedItems
             items={listings}
             labelFunc={(l) => `${l.sku?.name || l.sku_id}`}
-            bodyFunc={(l) => <Listing listing={l}/>}
+            bodyFunc={
+                (l) => <Listing listing={l}
+                                bidActionComp={
+                                    enableBidChooser ? bidChooserFor(l) : null
+                                }/>
+            }
         />
     );
 }

@@ -6,7 +6,7 @@ import {Listings} from "../../src/components/listing/ListingView";
 const ListingPage = () => (
     <BasePage
         header={({classes, drawerOpened}) => 'Listings'}
-        content={({classes, drawerOpened}) => (<Listings/>)}
+        content={({classes, drawerOpened}) => (<Listings enableBidChooser/>)}
     />
 );
 

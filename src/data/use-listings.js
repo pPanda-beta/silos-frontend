@@ -16,7 +16,19 @@ export const createListing = (t) => jsonFetcher('/api/listing', {
         expiration_time: t.exprDateTime,
         sku: t.sku,
     })
-})
+});
+
+
+export const acceptBid = (listing, bid) => jsonFetcher(`/api/listing/${listing.listing_id}`, {
+    method: "PUT",
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+        state: 'close',
+        accepted_bid: bid
+    })
+});
 
 
 export const useListings = () => {

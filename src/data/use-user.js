@@ -16,6 +16,19 @@ export const createUser = ({userId, userName}) => jsonFetcher('/api/user', {
 });
 
 
+export const addRating = ({userId, domainId, rating}) => jsonFetcher('/api/user/rating', {
+    method: "POST",
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+        user_id: userId,
+        domain_id: domainId,
+        rating
+    })
+});
+
+
 export const useUser = ({
                             redirectToWhenLoggedOut = '/login',
                             afterLogin = null
