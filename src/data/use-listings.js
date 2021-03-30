@@ -14,8 +14,8 @@ export const createListing = (t) => jsonFetcher('/api/listing', {
         sku_id: t.skuId,
         min_price: t.minPrice,
         max_price: t.maxPrice,
-        created_time: new Date(),
-        expiration_time: t.exprDateTime,
+        created_time: new Date().getTime(),
+        expiration_time: t.exprDateTime.getTime(),
         sku: t.sku,
     })
 });
