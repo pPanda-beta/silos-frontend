@@ -5,11 +5,11 @@ WORKDIR /app
 
 ADD package.json .
 #Install modules for major version and cache it -- saves time if only package-lock is changed
-RUN npm install
+RUN npm install --force
 
 ADD package-lock.json .
 #Fine tune installing modules with minor version and cache it
-RUN npm install
+RUN npm install --force
 
 #Add our sources and build
 ADD . .
