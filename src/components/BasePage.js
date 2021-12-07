@@ -10,19 +10,17 @@ import {useStyles} from "../styles/base";
 import SideBar from "../components/navigation/SideBar";
 import {SWRConfig} from "swr";
 import {swrConfigs} from "../intg/client";
-import useUser from "../data/use-user";
 import Avatar from "@material-ui/core/Avatar";
 
 export const GlobalContext = createContext({});
 
 export const BasePage = (
     {
-        header = 'TrueBid',
+        header = 'Base',
         content = () => (<></>),
     }
         = {}) => {
     const classes = useStyles();
-    const {loggedInUser, logout} = useUser();
 
     const [open, setOpen] = React.useState(false);
 
@@ -31,7 +29,6 @@ export const BasePage = (
 
     const childProps = {
         classes, drawerOpened: open,
-        loggedInUser
     };
 
     return (
@@ -67,16 +64,14 @@ export const BasePage = (
                                 {header(childProps)}
                                 <span>
                                 <Avatar sizes='30'
-                                        className={classes.userWelcomeMsg}
-                                        alt={loggedInUser?.name}
-                                        src="/static/images/avatar/1.jpg"/>
+                                        className={classes.userWelcomeMsg} />
                                 </span>
 
 
                             </Typography>
                         </Toolbar>
                     </AppBar>
-                    <SideBar open={open} handleDrawerClose={handleDrawerClose} onLogout={logout}/>
+                    <SideBar open={open} handleDrawerClose={handleDrawerClose} />
                     <main
                         className={clsx(classes.content, {
                             [classes.contentShift]: open,

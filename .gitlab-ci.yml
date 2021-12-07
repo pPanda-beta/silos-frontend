@@ -67,15 +67,15 @@ build:
   only:
     - master
 
-
+# TODO: add details if deployed using heroku
 deploy-prod:
   stage: deploy
   variables:
-    TARGET_HEROKU_APP: truebid
+    TARGET_HEROKU_APP: <>
   script: *heroku-deploy
   environment:
     name: prod
-    url: https://truebid.herokuapp.com/
+    url: https://<>.herokuapp.com/
   only:
     - master
   when: manual

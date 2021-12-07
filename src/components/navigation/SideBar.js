@@ -1,8 +1,5 @@
 import Drawer from "@material-ui/core/Drawer";
 import IconButton from "@material-ui/core/IconButton";
-import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
-import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
-import WbSunnyIcon from '@material-ui/icons/WbSunny';
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import Divider from "@material-ui/core/Divider";
@@ -14,10 +11,8 @@ import ListItemText from "@material-ui/core/ListItemText";
 import React from "react";
 import {useStyles} from "../../styles/base";
 import {useTheme} from "@material-ui/core/styles";
-import Link from "../../Link";
-import {PlusOneSharp} from "@material-ui/icons";
 
-export default ({open, handleDrawerClose, onLogout}) => {
+export default ({open, handleDrawerClose}) => {
     const classes = useStyles();
     const theme = useTheme();
 
@@ -38,38 +33,12 @@ export default ({open, handleDrawerClose, onLogout}) => {
             </div>
             <Divider/>
             <List>
-                {/*<ListItem button component={Link} href="/listings/new?type=buy">*/}
-                {/*    <ListItemText primary="Buy"/>*/}
-                {/*    <ListItemIcon><MonetizationOnIcon/> <ArrowRightAltIcon/> <WbSunnyIcon/></ListItemIcon>*/}
-                {/*</ListItem>*/}
-
-                <ListItem button component={Link}
-                          href="/listings/new?type=sell">
-                    <ListItemText primary="Create Listing"/>
-                    <ListItemIcon><WbSunnyIcon/> <ArrowRightAltIcon/>
-                        <MonetizationOnIcon/></ListItemIcon>
-                </ListItem>
-
-                <ListItem button component={Link} href="/listings">
-                    <ListItemText primary="My Listings"/>
-                    <ListItemIcon><MonetizationOnIcon/></ListItemIcon>
-                </ListItem>
-
-                <ListItem button component={Link} href="/bids/new">
-                    <ListItemText primary="Buy"/>
-                    <ListItemIcon><MonetizationOnIcon/><PlusOneSharp/></ListItemIcon>
-                </ListItem>
-
-                <ListItem button component={Link} href="/bids">
-                    <ListItemText primary="My Bids"/>
-                    <ListItemIcon><WbSunnyIcon/></ListItemIcon>
-                </ListItem>
-
             </List>
+
             <Divider/>
             <List>
 
-                <ListItem button onClick={onLogout}>
+                <ListItem button >
                     <ListItemIcon><InboxIcon/></ListItemIcon>
                     <ListItemText primary="Logout"/>
                 </ListItem>

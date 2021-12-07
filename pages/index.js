@@ -4,10 +4,10 @@ import Typography from "@material-ui/core/Typography";
 
 export default () => (
     <BasePage
-        header={({classes, drawerOpened}) => 'TrueBid'}
-        content={({classes, drawerOpened, loggedInUser}) => (
+        header={({classes, drawerOpened}) => 'Home'}
+        content={({classes, drawerOpened}) => (
             <Typography paragraph>
-              <span><b>Welcome, {loggedInUser?.name}</b></span>
+              <span><b>Welcome, Guest</b></span>
             </Typography>
         )}
     />
