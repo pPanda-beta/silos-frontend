@@ -10,6 +10,8 @@
     "@material-ui/pickers": "^3.3.10",
     "clsx": "latest",
     "date-fns": "^2.19.0",
+    "dexie": "^3.2.0",
+    "dexie-react-hooks": "^1.0.7",
     "mui-datatables": "^3.7.6",
     "next": "^12.0.7",
     "prop-types": "latest",
@@ -22,5 +24,8 @@
     "build": "next build && next export",
     "start": "next start",
     "post-update": "echo \"codesandbox preview only, need an update\" && yarn upgrade --latest"
+  },
+  "devDependencies": {
+    "next-transpile-modules": "^9.0.0"
   }
 }
