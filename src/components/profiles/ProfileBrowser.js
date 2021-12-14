@@ -4,6 +4,7 @@ import {profileService} from '../../services/profile';
 import {Grid, Paper, Typography} from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import {Facebook, LinkedIn} from '@material-ui/icons';
+import {multiSelectFilter, range} from '../../data/common';
 
 const ProfileCard = ({profile}) => {
 
@@ -56,11 +57,35 @@ const ProfileBrowser = () => {
         )
       }
     },
-    {name: 'userAge', label: "Age"},
-    {name: 'height', label: "Height"},
-    {name: 'highestEducationVal', label: "Education"},
-    {name: 'occupationVal', label: "Occupation"},
-    {name: 'annualIncomeVal', label: "Annual Income"},
+    {
+      name: 'userAge',
+      label: "Age",
+      options: range({
+        initialRange: [18, 40],
+        filterSliderLabel: () => (<Typography> Age</Typography>),
+        renderAppliedFilter: ([minAge, maxAge]) => `${minAge} <= Age <= ${maxAge}`,
+      })
+    },
+    {
+      name: 'height',
+      label: "Height",
+      options: range({
+        initialRange: [3, 12],
+        filterSliderLabel: () => (<Typography> Height</Typography>),
+        renderAppliedFilter: ([minHeight, maxHeight]) => `${minHeight} <= Height <= ${maxHeight}`,
+      })
+    },
+    {
+      name: 'highestEducationVal',
+      label: "Education",
+      options: multiSelectFilter()
+    },
+    {name: 'occupationVal', label: "Occupation", options: multiSelectFilter()},
+    {
+      name: 'annualIncomeVal',
+      label: "Annual Income",
+      options: multiSelectFilter()
+    },
     {
       name: 'lastLogInTimeResolved',
       label: "Last Active",

@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import {Slider} from '@material-ui/core';
 
 export const createEnum = (...keys) => Object.freeze(
     Object.fromEntries(keys.map(t => [t, Symbol(t)]))
@@ -58,3 +59,49 @@ export const toDataset = (items, columnMappings = null) => ({
         )),
     })
 ;
+
+
+export const multiSelectFilter = () => ({
+  filter: true,
+  filterType: 'multiselect',
+});
+
+export const range = ({initialRange, renderAppliedFilter, filterSliderLabel}) => {
+  return ({
+        filter: true,
+        filterType: 'custom',
+
+        customFilterListOptions: {
+          render: renderAppliedFilter,
+        },
+        filterOptions: {
+          names: [],
+          logic(value, range) {
+            if (range.length === 0) {
+              return false;
+            }
+            const [minValue, maxValue] = range;
+            return !(minValue <= value && value <= maxValue);
+          },
+          display: (filterList, onChange, index, column) => {
+            const filter = filterList[index];
+            const selectedRange = filter.length ? filter : initialRange;
+            return (
+                <div>
+                  {filterSliderLabel()}
+                  <Slider
+                      value={selectedRange}
+                      onChange={(_, r) => onChange(r, index, column)}
+                      valueLabelDisplay="auto"
+                      min={initialRange[0]}
+                      max={initialRange[1]}
+                  />
+                </div>
+            );
+          },
+        },
+        print: false,
+      }
+  );
+};
+
