@@ -2,8 +2,8 @@
 const withTM = require('next-transpile-modules')(
     ['dexie-react-hooks', 'dexie']);
 
-const imagesBaseUrl = atob('aHR0cHM6Ly9pbWFnZXMuYWJwd2VkZGluZ3MuY29t');
-const sofReadOnlyBaseUrl = atob('aHR0cHM6Ly9zb2ZyZWFkb25seS5hYnB3ZWRkaW5ncy5jb20=');
+const imagesBaseUrl = Buffer.from('aHR0cHM6Ly9pbWFnZXMuYWJwd2VkZGluZ3MuY29t', 'base64').toString();
+const sofReadOnlyBaseUrl = Buffer.from('aHR0cHM6Ly9zb2ZyZWFkb25seS5hYnB3ZWRkaW5ncy5jb20=', 'base64').toString();
 
 module.exports = withTM({
   swcMinify: true,
