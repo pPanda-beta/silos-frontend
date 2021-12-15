@@ -2,6 +2,9 @@
 const withTM = require('next-transpile-modules')(
     ['dexie-react-hooks', 'dexie']);
 
+const imagesBaseUrl = atob('aHR0cHM6Ly9pbWFnZXMuYWJwd2VkZGluZ3MuY29t');
+const sofReadOnlyBaseUrl = atob('aHR0cHM6Ly9zb2ZyZWFkb25seS5hYnB3ZWRkaW5ncy5jb20=');
+
 module.exports = withTM({
   swcMinify: true,
   experimental: {
@@ -11,11 +14,11 @@ module.exports = withTM({
     return [
       {
         source: '/api-images/:path*',
-        destination: 'https://images.abpweddings.com/:path*'
+        destination: `${imagesBaseUrl}/:path*`
       },
       {
         source: '/api-sofreadonly/:path*',
-        destination: 'https://sofreadonly.abpweddings.com/:path*'
+        destination: `${sofReadOnlyBaseUrl}/:path*`
       },
     ]
   }
